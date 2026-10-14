@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es" class="intro-on"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04130f">
+<title>XV Años · María José</title>
+<link rel="preload" as="image" href="bosque.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@700&display=swap" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@700&display=swap"></noscript>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><radialGradient id="g"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient></defs></svg>
+
+<div id="bgs" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="rays" id="rays" aria-hidden="true"></div>
+<div class="fog f1" aria-hidden="true"></div><div class="fog f2" aria-hidden="true"></div>
+<div class="lv" id="lvT" aria-hidden="true"><img src="hojas.webp" alt="" decoding="async"></div>
+<div class="lv" id="lvB" aria-hidden="true"><img src="hojas.webp" alt="" decoding="async"></div>
+<div class="layer" id="fall" aria-hidden="true"></div>
+<div class="layer" id="magic" aria-label="Hadas y luciérnagas"></div>
+<button id="sound" class="sound" aria-pressed="false" title="Sonido del bosque">🔇 Sonido</button>
+
+<div id="intro"><p class="eyebrow">XV AÑOS</p><h1>María José</h1><p class="quote">Un bosque encantado te espera…</p>
+<button id="enter" class="btn">Entrar al bosque ✨</button></div>
+
+<main>
+  <section class="stage hero" data-img="bosque.webp" data-fx="50" data-fy="50" data-s="1" data-t="Portada">
+    <p class="eyebrow">XV AÑOS</p>
+    <h1>María José</h1>
+    <p class="quote">Como lo más grande, me llegó del cielo…</p>
+    <p class="hint">Toca las hadas y luciérnagas ✨<br>Usa los círculos de abajo para recorrer el bosque</p>
+  </section>
+
+  <section class="stage panel" data-img="bosque.webp" data-fx="22" data-fy="30" data-s="2.4" data-t="Invitación">
+    <p class="parents">Mónica y Brian</p>
+    <p class="msg">Los invitan para que devolvamos parte del amor con que Majo nos ha irradiado a lo largo de su existencia. Hagamos juntos de esta celebración algo que recuerde por siempre.</p>
+    <p class="date">Sábado 14 de noviembre de 2026<br><b>7:00 p.m.</b></p>
+  </section>
+
+  <section class="stage panel" data-img="bosque_lago.webp" data-fx="45" data-fy="52" data-s="2.1" data-t="Cuenta regresiva">
+    <h2>Faltan</h2>
+    <div class="count">
+      <div><b id="cd-d">00</b><span>Días</span></div><i>:</i>
+      <div><b id="cd-h">00</b><span>Horas</span></div><i>:</i>
+      <div><b id="cd-m">00</b><span>Minutos</span></div><i>:</i>
+      <div><b id="cd-s">00</b><span>Segundos</span></div>
+    </div>
+  </section>
+
+  <section class="stage panel" data-img="bosque_casa.webp" data-fx="55" data-fy="56" data-s="2.1" data-t="Recepción">
+    <h2>Recepción</h2>
+    <p class="big">La Candelaria, centro histórico</p>
+    <p>Carrera 5 n.° 6B-15, Bogotá</p>
+    <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Carrera+5+%236B-15+La+Candelaria+Bogot%C3%A1">Ubicación</a>
+  </section>
+
+  <section class="stage panel" data-img="bosque_casa.webp" data-fx="84" data-fy="78" data-s="2.4" data-t="Vestimenta">
+    <h2>Código de vestimenta</h2>
+    <p class="big">Formal elegante</p>
+    <div class="dress">
+      <div><h3>Ellos</h3><p>Traje elegante con corbata o corbatín</p><p>Zapatos formales</p><p>No usar tenis</p><p>Tonos sobrios y elegantes</p>
+        
+      <div><h3>Ellas</h3><p>Vestido largo o de gala</p><p>Tacón o zapato formal</p>
+        <h4>No usar estos colores</h4>
+        <ul class="chips"><li><s style="background:#7b3fa0"></s>Morado</li><li><s style="background:#c8a2e0"></s>Lila</li><li><s style="background:#f7e7ce"></s>Champaña</li><li><s style="background:#d3202a"></s>Rojo</li><li><s style="background:#d4af37"></s>Dorado</li><li><s style="background:#c0c0c0"></s>Plateado</li><li><s style="background:#4b1d3f"></s>Berenjena</li><li><s style="background:#000000"></s>Negro</li></ul></div>
+    </div>
+  </section>
+
+  <section class="stage panel" data-img="bosque_hadas.webp" data-fx="22" data-fy="74" data-s="2.5" data-t="Lluvia de sobres">
+    <div class="env">✉</div>
+    <h2>Lluvia de sobres</h2>
+    <p>Majo espera tu detalle en forma de sobre</p>
+  </section>
+
+  <section class="stage panel" data-img="bosque_hadas.webp" data-fx="52" data-fy="62" data-s="2.6" data-t="Confirmación">
+    <h2>Confirma tu asistencia</h2>
+    <form id="rsvp">
+      <label>Tu nombre<input id="name" type="text" placeholder="Nombre completo" autocomplete="name" required></label>
+      <fieldset><legend>¿Asistirás?</legend>
+        <label class="opt"><input type="radio" name="att" value="Sí, ahí estaré" checked> Sí, ahí estaré ✨</label>
+        <label class="opt"><input type="radio" name="att" value="No podré asistir"> No podré asistir</label>
+      </fieldset>
+      <label>Número de acompañantes<input id="guests" type="number" min="0" max="5" value="0" inputmode="numeric"></label>
+      <button class="btn" type="submit">Enviar confirmación</button>
+      <a id="wa" class="link" href="#" hidden>Si no se abrió WhatsApp, toca aquí →</a>
+    </form>
+  </section>
+
+  <section class="stage end" data-img="bosque_lago.webp" data-fx="50" data-fy="45" data-s="1.4" data-t="Final"><p class="sign">Ella me cuida la vida, aunque el grande soy yo</p></section>
+</main>
+<audio id="music" src="Pocahontas.mp3" loop preload="none"></audio>
+<script src="script.js" defer></script>
+</body></html>

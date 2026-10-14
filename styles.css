@@ -1,0 +1,128 @@
+:root{--gold:#f1d68a;--glow:#ffe9a8;--teal:#7fe8dc;--ink:#f4efe2;--mute:#c5d3d6;--dur:1.8s;--ease:cubic-bezier(.45,0,.2,1);
+--script:'Parisienne',cursive;--serif:'Cormorant Garamond',Georgia,serif;--disp:'Cinzel',Georgia,serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+/* Sin scroll de página: el recorrido solo se controla con los círculos de abajo */
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;width:100%;background:#04130f;color:var(--ink);font-family:var(--serif);font-size:1.15rem}
+button{font:inherit;color:inherit}
+
+/* ===== Fondos: 4 imágenes; la cámara se mueve solo con transform/opacity (todo en GPU, sin JS por fotograma) ===== */
+#bgs{position:fixed;inset:0;z-index:0;background:#04130f;overflow:hidden}
+.bg{position:absolute;inset:0;transform-origin:0 0;background-size:cover;background-position:center;opacity:0;visibility:hidden;
+transition:transform var(--dur) var(--ease),opacity calc(var(--dur)*.75) ease,visibility 0s linear var(--dur)}
+.bg.on{visibility:visible;transition:transform var(--dur) var(--ease),opacity calc(var(--dur)*.75) ease,visibility 0s}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+background:radial-gradient(ellipse at 50% 55%,transparent 35%,rgba(2,10,8,.55) 100%)}
+
+/* ===== Atmósfera: rayos, niebla, hojas (imágenes/gradientes ya preparados, sin filtros) ===== */
+.rays{position:fixed;inset:-5% -15% 25% -15%;z-index:1;pointer-events:none;background:url(rayos.webp) 0 0/100% 100% no-repeat;
+opacity:var(--ray,.4);transition:opacity 1.5s;animation:raysway 11s ease-in-out infinite alternate}
+@keyframes raysway{to{transform:translate3d(4%,0,0)}}
+.fog{position:fixed;left:-30%;width:160%;height:45%;z-index:1;pointer-events:none;opacity:.5}
+.f1{bottom:0;background:radial-gradient(ellipse at 30% 60%,rgba(170,230,225,.25),transparent 60%);animation:fog 38s linear infinite alternate}
+.f2{bottom:15%;background:radial-gradient(ellipse at 70% 50%,rgba(200,240,230,.2),transparent 60%);animation:fog 52s linear infinite alternate-reverse}
+@keyframes fog{to{transform:translate3d(18%,0,0)}}
+.lv{position:fixed;left:-6%;width:112%;z-index:2;pointer-events:none;transition:transform var(--dur) var(--ease)}
+.lv img{display:block;width:100%;height:auto;transform-origin:50% 0;animation:sway 7s ease-in-out infinite alternate}
+@keyframes sway{to{transform:rotate(2deg)}}
+#lvT{top:-2%;transform-origin:50% 0;transform:translate3d(0,calc(var(--lp,0)*-40px),0) scale(var(--near,.85))}
+#lvB{bottom:-2%;transform-origin:50% 100%;transform:translate3d(0,calc(var(--lp,0)*40px),0) scale(var(--near,.85)) rotate(180deg)}
+.layer{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+#fall img{position:absolute;top:-60px;width:var(--w,22px);animation:fall var(--d,16s) linear var(--dl,0s) infinite}
+@keyframes fall{0%{transform:translate3d(0,0,0) rotate(0)}25%{transform:translate3d(40px,28vh,0) rotate(120deg)}50%{transform:translate3d(-30px,56vh,0) rotate(260deg)}75%{transform:translate3d(45px,84vh,0) rotate(380deg)}100%{transform:translate3d(0,112vh,0) rotate(520deg)}}
+
+/* ===== Luciérnagas y hadas: solo animaciones CSS en transform/opacity ===== */
+.fly{position:absolute;left:0;top:0;border:0;background:none;cursor:pointer;pointer-events:auto;animation:drift var(--t,10s) ease-in-out var(--dl,0s) infinite alternate}
+@keyframes drift{to{transform:translate3d(var(--dx,0),var(--dy,0),0) rotate(var(--r,0deg))}}
+.ff{width:30px;height:30px}
+.ff::after{content:'';position:absolute;inset:3px;border-radius:50%;
+background:radial-gradient(circle,#fffbe0 0 16%,rgba(255,226,130,.7) 32%,rgba(255,210,100,0) 70%);animation:blink var(--b,3s) ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+.fairy{width:46px;height:46px}
+.fairy svg{width:100%;height:100%;overflow:visible;display:block}
+.wing{transform-origin:24px 26px;animation:flap .28s ease-in-out infinite alternate}
+.wing.b{animation-direction:alternate-reverse}
+@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.5)}}
+.fly.guide{left:84vw;top:74vh;width:60px;height:60px;animation:bob 2.8s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translate3d(-10px,-14px,0)}}
+.spark{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px;border-radius:50%;opacity:0;pointer-events:none;
+background:radial-gradient(circle,#fff6c8 0 30%,rgba(255,226,130,.6) 55%,rgba(255,226,130,0) 72%)}
+
+/* ===== Interfaz ===== */
+.sound{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:10;padding:9px 14px;border-radius:30px;border:1px solid rgba(241,214,138,.5);
+background:rgba(4,19,15,.82);color:var(--gold);font:700 .85rem var(--disp);cursor:pointer}
+#dots{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10;display:flex;gap:2px;padding:4px 10px;
+border-radius:30px;background:rgba(3,18,16,.78);border:1px solid rgba(241,214,138,.25)}
+#dots button{width:26px;height:26px;border:0;background:none;cursor:pointer;position:relative}
+#dots button::before{content:'';position:absolute;inset:8px;border-radius:50%;border:1px solid var(--gold);transition:background .3s,transform .3s}
+#dots button.a::before{background:var(--gold);transform:scale(1.3)}
+#dots button:focus-visible,.sound:focus-visible,.btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* ===== Escenas: cada bloque aparece cuando la cámara llega a su zona ===== */
+main{position:relative;z-index:3}
+.stage{position:fixed;left:50%;top:50%;width:min(620px,calc(100% - 28px));max-height:calc(100vh - 140px);max-height:calc(100svh - 140px);overflow-y:auto;
+transform:translate(-50%,-50%) scale(.94);opacity:0;visibility:hidden;pointer-events:none;text-align:center;scrollbar-width:none;touch-action:pan-y;overscroll-behavior:contain;
+transition:opacity .45s ease,visibility 0s linear .45s,transform .45s ease}
+.stage::-webkit-scrollbar{display:none}
+.stage.on{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,-50%) scale(1);
+transition:opacity .6s ease calc(var(--dur)*.55),visibility 0s,transform .6s ease calc(var(--dur)*.55)}
+.stage.hero,.stage.end{overflow:visible;max-height:none}
+.stage.hero{width:100%;padding:0 24px}
+.stage.panel{padding:38px 26px;background:rgba(3,18,16,.8);border:1px solid rgba(241,214,138,.3);border-radius:22px;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.stage.on>*{animation:rise .7s ease both;animation-delay:calc(var(--dur)*.6 + var(--k,0)*.1s)}
+@keyframes rise{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:none}}
+
+.eyebrow{font:700 1rem var(--disp);letter-spacing:.5em;color:var(--teal);text-shadow:0 0 10px #000}
+h1{font:400 clamp(4rem,17vw,7.5rem)/1.05 var(--script);color:var(--gold);margin:10px 0;text-shadow:0 0 14px rgba(241,214,138,.55),0 2px 8px #000}
+.quote{font-style:italic;font-size:1.3rem;text-shadow:0 2px 8px #000;max-width:420px;margin:0 auto}
+.hint{margin-top:32px;font-size:.95rem;color:var(--mute);text-shadow:0 2px 6px #000}
+h2{font:700 1.5rem var(--disp);color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px}
+h2::after{content:'✦';display:block;color:var(--teal);font-size:.8rem;margin-top:8px}
+h3{font:700 1.05rem var(--disp);color:var(--gold);margin-bottom:8px;letter-spacing:.1em}
+p{line-height:1.55;margin-bottom:8px}
+.parents{font:2.3rem var(--script);color:var(--gold)}
+.msg{font-size:1.2rem;margin:10px 0 20px}
+.date{font-size:1.3rem;color:var(--gold)}.date b{font:700 1.6rem var(--disp)}
+.count{display:flex;justify-content:center;align-items:flex-start;gap:6px}
+.count div{min-width:62px}.count b{display:block;font:700 clamp(1.8rem,8vw,2.6rem) var(--disp);color:var(--gold)}
+.count span{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.count i{font:2rem var(--disp);color:var(--teal);font-style:normal}
+.big{font-size:1.5rem;color:var(--gold)}
+.btn{display:inline-block;margin-top:16px;padding:12px 30px;border:1px solid var(--gold);border-radius:30px;background:rgba(241,214,138,.08);
+color:var(--gold);font:700 .95rem var(--disp);letter-spacing:.1em;text-decoration:none;cursor:pointer;transition:background .25s,color .25s}
+.btn:hover{background:var(--gold);color:#04130f}
+.dress{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0;text-align:left}
+.dress{gap:10px;margin:10px 0 0}.dress p{font-size:.98rem;line-height:1.35;margin-bottom:3px}.dress h3{margin-bottom:4px}
+h4{font:700 .8rem var(--disp);color:var(--teal);letter-spacing:.08em;margin:14px 0 8px}
+.chips{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.chips li{display:flex;align-items:center;gap:6px;padding:3px 10px 3px 4px;border:1px solid rgba(255,255,255,.2);border-radius:20px;font-size:.85rem}
+.chips s{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.5)}
+.env{font-size:2.6rem;color:var(--gold)}
+form{display:flex;flex-direction:column;gap:18px;text-align:left}
+label{display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--mute)}
+input[type=text],input[type=number]{padding:12px;border-radius:10px;border:1px solid rgba(241,214,138,.4);background:rgba(255,255,255,.07);color:var(--ink);font:1.05rem var(--serif)}
+fieldset{border:0;display:flex;flex-direction:column;gap:8px}legend{font-size:.95rem;color:var(--mute);margin-bottom:6px}
+.opt{flex-direction:row;align-items:center;gap:10px;padding:11px;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:var(--ink);cursor:pointer}
+.opt input{accent-color:var(--teal)}
+form .btn{align-self:center}.link{color:var(--teal);text-align:center}
+.sign{font:2rem/1.3 var(--script);color:var(--gold);text-shadow:0 0 12px rgba(241,214,138,.5),0 2px 6px #000;padding:0 20px}
+
+/* ===== Pantalla de entrada ===== */
+#intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;
+background:radial-gradient(ellipse at 50% 50%,rgba(4,19,15,.25),rgba(2,10,8,.7));transition:opacity 1.2s,visibility 0s linear 1.2s}
+/* mientras se ve la pantalla de entrada, solo ella: sin portada, puntos ni botón de sonido */
+.intro-on #dots,.intro-on .sound,.intro-on main{visibility:hidden}
+#intro.go{opacity:0;visibility:hidden;pointer-events:none}
+#intro .btn{margin-top:34px;animation:blink 2.4s infinite}
+
+/* ===== Equipos de gama baja: menos capas y menos animaciones continuas ===== */
+.lite .f2{display:none}
+.lite .rays{animation:none}
+.lite .lv img{animation:none}
+.lite .wing{animation-duration:.45s}
+.lite .stage.panel{box-shadow:none}
+.lite .vignette{display:none}
+.paused *,.paused .fog,.paused .rays{animation-play-state:paused!important}
+@media(max-height:720px){.stage.panel{padding:20px 16px}h2{margin-bottom:12px;font-size:1.3rem}.big{font-size:1.25rem;margin-bottom:2px}.dress p{font-size:.92rem}h4{margin:8px 0 6px}.chips{gap:4px}.chips li{font-size:.8rem}}
+@media(max-width:480px){.dress{grid-template-columns:1fr}.stage.panel{padding:30px 16px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}}
